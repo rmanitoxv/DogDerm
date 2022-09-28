@@ -12,8 +12,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <div class="navbar-nav flex justify-center w-full align-items-center">
-                        <div class="mx-8 nav-item" v-if="currentRoute == 'Homepage'"><span class="lg:nav-active text-lg font-bold">Home</span></div>
-                        <div class="mx-8 nav-item" v-else><router-link to="/" class="lg:nav text-lg font-bold"><span>Home</span></router-link></div>
+                        <div class="mx-8 relative" v-if="currentRoute == 'Homepage'"><div><span class="lg:nav-active text-lg font-bold">Home</span></div><div class="lg:nav-line"></div></div>
+                        <div class="mx-8" v-else><router-link to="/" class="lg:nav text-lg font-bold"><span>Home</span></router-link></div>
 
                         <div class="mx-8"><router-link to="/about" class="lg:nav text-lg font-bold"><span>About</span></router-link></div>
                         <div class="mx-8"><router-link to="/clinics" class="lg:nav text-lg font-bold"><span>Clinics</span></router-link></div>
@@ -22,12 +22,12 @@
                     </div>
 
                     <!-- Right Side Of Navbar -->
-                    <div class="navbar-nav flex justify-center ms-auto align-items-center">
+                    <div class="navbar-nav flex justify-center align-items-center">
                         <!-- Authentication Links -->
-                        <div class="mx-8" v-if="currentRoute == 'Login'"><span class="lg:nav-active text-lg font-bold">Login</span></div>
+                        <div class="mx-8 relative" v-if="currentRoute == 'Login'"><div><span class="lg:nav-active text-lg font-bold">Login</span></div><div class="lg:nav-line"></div></div>
                         <div class="mx-8" v-else><router-link to="/login" class="lg:nav text-lg font-bold"><span>Login</span></router-link></div>
                         
-                        <div><router-link to="/register" tag="button" class="btn btn-primary text-lg rounded-3xl text-white" style="background: #E05534; border:none;"><span>Register</span></router-link></div>
+                        <div><router-link to="/register" tag="button" class="text-lg py-2.5 px-6 rounded-3xl text-white lg:button-color" style="border:none;"><span>Register</span></router-link></div>
 
                     </div>
                 </div>
