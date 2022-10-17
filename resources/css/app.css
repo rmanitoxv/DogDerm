@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiko:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -17,7 +18,7 @@
         display: block;
         width: 1rem;
         height: 0.25rem;
-        background: #E05534;
+        background: #FE8D2A;
         position: absolute;
         border-radius: 1rem;
         left: 0;
@@ -25,7 +26,7 @@
         margin: auto;
     }
     .nav:hover + .nav-line-hidden{
-        background: #E05534;
+        background: #FE8D2A;
     }
     .nav:hover{
         color: #112B3C;
@@ -42,7 +43,7 @@
         margin: auto;
     }
     .amiko {
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Amiko', sans-serif;
     }
     .poppins{
         font-family: 'Poppins', sans-serif;
@@ -50,8 +51,11 @@
     .inter{
         font-family: 'Inter', sans-serif;
     }
+    .barlow{
+        font-family: 'Barlow', sans-serif;
+    }
     .orange{
-        color: #E05534;
+        color: #FE8D2A;
     }
     .gray{
         color: #808080
@@ -63,7 +67,7 @@
         color: #EAF0F7;
     }
     .button-color{
-        background-color: #E05534
+        background-color: #FE8D2A
     }
     .button-color:hover{
         background-color: #112B3C

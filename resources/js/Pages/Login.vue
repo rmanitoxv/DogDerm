@@ -1,43 +1,66 @@
 <template>
-    <div class="flex justify-content-center">
-        <div class="w-[45rem]" style="background-image: url('/images/login-bg.svg'); background-size: contain;">
-            <div class="text-6xl lg:amiko font-semibold mb-8" style="padding-top: 9.813rem">
-                Welcome back, <br/>
-                we missed you!
-            </div>
-            <div class="text-xl lg:poppins lg:gray">
-                If you don't have an account, <br/>
-                you can <router-link to="/register" class="font-semibold lg:orange"><span>Register here!</span></router-link>
-            </div>
-            <div class="flex justify-end">
-                <img src="/images/login-dog-vector.svg" />
+    <!-- NEW UI!!!!! -->
+        <div class="login">
+            <div class="login__content">
+                <div class="login__img">
+                    <img src="/images/register-dog-vector.svg" alt="">
+                </div>
+
+                <div class="login__forms">
+                    <!-- =====  SIGN IN =====  -->
+                    <form action="" class="login__registre" id="login-in" @submit.prevent="loginForm">
+                        <h1 class="logo__title"><span>Dog</span>Derma </h1>
+                        <h1 class="login__title">Sign In</h1>
+    
+                        <div class="login__box">
+                            <i class='bx bx-user login__icon'></i>
+                            <input type="text" placeholder="Email" class="login__input" id="email">
+                        </div>
+    
+                        <div class="login__box">
+                            <i class='bx bx-lock-alt login__icon'></i>
+                            <input type="password" placeholder="Password" class="login__input" id="password">
+                        </div>
+
+                        <router-link to="/forgotpassword" class="login__forgot">Forgot password?</router-link>
+
+                        <button class="login__button w-full">Sign In</button>
+
+                        <div>
+                            <span class="login__account">Don't have an account?</span>
+                            <router-link to="/register">
+                                <span class="login__signin" id="sign-up"> Register here!</span>
+                            </router-link>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="p-[4.375rem]">
-        </div>
-        <div class="w-96"  style="padding-top: 8.125rem">
-            <form>
-                <div class="mb-2.5">
-                    <label for="email" class="lg:gray text-lg ml-5 lg:poppins">Email</label><br/>
-                    <input type="text" class="text-[1.625rem] w-[25rem] lg:gray lg:inter rounded-lg pl-5 bg-[#EAF0F7]" id="email" placeholder="user@email.com"/>
-                </div>
-                <div class="mb-7">
-                    <label for="password" class="lg:gray text-lg ml-5 lg:poppins">Password</label><br/>
-                    <input type="password" class="text-[1.625rem] w-[25rem] lg:gray lg:inter rounded-lg pl-5 bg-[#EAF0F7]" id="password" placeholder="********" />
-                </div>
-                <div class="mb-[3.75rem]">
-                    <router-link to="/forgot-password" class="lg:gray text-lg underline ml-5">Forgot Password?</router-link>
-                </div>
-                <div>
-                    <button id="submit" class="btn btn-primary rounded-2xl w-full h-[3.75rem] text-lg font-semibold lg:poppins" style="background-color:#E05534; border: none;"> Login </button>
-                </div>
-            </form>
-        </div>
-    </div>
+
 </template>
 
 <script>
-    export default {
-        
+import parseCookie from '../utils/parseCookie';
+export default {
+    methods: {
+        loginForm(){
+            axios.post('/api/login/', {
+                email: email.value,
+                password: password.value
+            })
+            .then((response) => {
+                document.cookie =`token=${response.data.token}`;
+                if (response.data.user.isAdmin == 1){
+                    this.$router.push({ name: "AdminProfile" })
+                }
+                else{
+                    this.$router.push({ name: "Homepage" })
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
     }
+}
 </script>
