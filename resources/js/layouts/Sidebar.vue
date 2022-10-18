@@ -3,15 +3,15 @@
         <div class="mx-[2rem] mt-[1.5rem]">
             <div class="flex mx-2 align-items-center mb-5">
                 <button @click="sidebarFunction">
-                    <img src="images/list.svg" width="24" class="mr-3"/>
+                    <img src="/images/list.svg" width="24" class="mr-3"/>
                 </button>
                 <span class="text-2xl text-first barlow">Dog</span>
                 <span class="text-2xl text-second barlow">Derma</span>
             </div>
             <div class="flex mx-3 align-items-center mb-5">
-                <img src="images/sample-profile.svg" class="w-10 mr-2" />
+                <img src="/images/sample-profile.svg" class="w-10 mr-2" />
                 <div>
-                    <p class="poppins text-2xl text-second">Juan Dela Cruz</p>
+                    <p class="poppins text-2xl text-second m-0">Juan Dela Cruz</p>
                     <p class="poppins text-xs text-third">jdelacruz@email.com</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     </div>
                 </router-link>
             </div>
-            <div v-if="currentRoute == 'AdminDiseases'">
+            <div v-if="currentRoute == 'AdminDiseases' || currentRoute == 'AddDisease' || currentRoute == 'EditDisease'">
                 <div class="flex bg-first p-3 rounded-md align-items-center">
                     <i class='bx bxs-virus text-xl text-white mr-4'></i>
                     <p class="poppins text-base text-white">Disease</p>
@@ -43,7 +43,7 @@
                     </div>
                 </router-link>
             </div>
-            <div v-if="currentRoute == 'AdminClinics'">
+            <div v-if="currentRoute == 'AdminClinics' || currentRoute == 'AddClinics' || currentRoute == 'EditClinics'">
                 <div class="flex bg-first p-3 rounded-md align-items-center">
                     <i class='bx bxs-clinic text-xl text-white mr-4'></i>
                     <p class="poppins text-base text-white">Clinics</p>
@@ -57,7 +57,7 @@
                     </div>
                 </router-link>
             </div>
-            <div v-if="currentRoute == 'AdminUsers'">
+            <div v-if="currentRoute == 'AdminUsers' || currentRoute == 'AddUser' || currentRoute == 'EditUser'">
                 <div class="flex bg-first p-3 rounded-md align-items-center mb-32">
                     <i class='bx bxs-user-account text-xl text-white mr-4'></i>
                     <p class="poppins text-base text-white">Users</p>

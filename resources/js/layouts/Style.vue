@@ -5,7 +5,10 @@
 @import url(https://fonts.googleapis.com/css2?family=Amiko:wght@400;500;600;700;800;900&family=Barlow+Condensed:ital,wght@1,900&display=swap);
 
 @import url(https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css);
-
+@import url(https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css);
+/* @import url(https://maps.googleapis.com/maps/api/js?key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o&callback=initMap); */
+@import url(https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o);
+/* fontawesome */
 
 .sidebar {
     position: fixed;
@@ -467,7 +470,15 @@ img {
     display: grid;
     grid-template-columns: max-content 1fr;
     column-gap: .5rem;
-    padding: 1.125rem 1rem;
+    padding: 1.125rem;
+    background-color: var(--light-gray);
+    margin: 1rem 0 0;
+    border-radius: .5rem;
+}
+
+.login__box1 {
+    display: grid;
+    padding: 1.125rem;
     background-color: var(--light-gray);
     margin: 1rem 0 0;
     border-radius: .5rem;
@@ -485,6 +496,7 @@ img {
     font-weight: 500;
     color: var(--text-color);
     background-color: var(--light-gray);
+    width: 100%;
 }
 
 .login__input::placeholder {
@@ -627,7 +639,6 @@ img {
 /* MAIN PAGE TITLE */
 .main-title {
     font-family: "Amiko", sans-serif;
-    color: #e05534;
     font-size: 40px;
     font-weight: bold;
     text-align: center;
@@ -794,50 +805,7 @@ img {
         color: #fe8265;
         font-size: 14px;
     }
-    /* ACCORDION */
-    .accordion {
-        background-color: #fec58e;
-        cursor: pointer;
-        padding: 15px;
-        width: 100%;
-        border: none;
-        border-radius: 50px;
-        text-align: left;
-        vertical-align: middle;
-        outline: none;
-        font-family: "Amiko", sans-serif;
-        color: #6c6363;
-        font-size: 18px;
-        font-weight: 700;
-        transition: 0.4s;
-    }
-    .active,
-    .accordion:hover {
-        background-color: #ffb46e;
-    }
-    .accordion:after {
-        content: "\002B";
-        font-family: "Amiko", sans-serif;
-        color: #6c6363;
-        font-size: 18px;
-        font-weight: 700;
-        float: right;
-        margin-left: 5px;
-    }
-    .active:after {
-        content: "\2212";
-    }
-
-    .panel {
-        margin-top: 15px;
-        padding: 0 18px;
-        border-radius: 20px;
-        background-color: rgba(255, 180, 110, 0.247);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.2s ease-out;
-    }
-
+    
     @media only screen and (max-width: 650px) {
         /* MAIN CONTAINER */
         .main-container {
@@ -851,7 +819,198 @@ img {
         }
     }
 
+
+/*=============== FOOTER ===============*/
+.footer {
+  overflow: hidden;
+}
+
+.footer__container {
+  position: relative;
+  row-gap: 2rem;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  column-gap: .25rem;
+  color: var(--title-color);
+  font-weight: var(--font-medium);
+}
+
+.footer__logo-img {
+  width: 1.5rem;
+}
+
+.footer__description {
+  font-size: var(--small-font-size);
+}
+
+.footer__logo, 
+.footer__title {
+  margin-bottom: var(--mb-1);
+}
+
+.footer__title {
+  font-size: var(--h3-font-size);
+}
+
+.footer__links, 
+.footer__aviables {
+  display: flex;
+  flex-direction: column;
+  row-gap: .75rem;
+}
+
+.footer__link {
+  color: var(--text-color);
+  transition: .3s;
+}
+
+.footer__link:hover {
+  color: var(--title-color);
+}
+
+
+.footer__social{
+  font-size: 1.5rem;
+  color: var(--title-color);
+  margin-right: var(--mb-3);
+}
+
+.footer__social:hover{
+  color: var(--first-color);
+  cursor: pointer;
+}
+
+
+.footer__aviable-img {
+  width: 100px;
+  cursor: pointer;
+}
+
+.footer__copy {
+  display: block;
+  margin: 3.5rem 0 1rem 0;
+  text-align: center;
+  font-size: var(--smaller-font-size);
+  color: var(--text-color-light);
+}
+
+.footer__img1, 
+.footer__img2 {
+  position: absolute;
+  width: 100px;
+}
+
+.footer__img1 {
+  top: 25%;
+  right: 2rem;
+}
+
+.footer__img2 {
+  top: 75%;
+  right: -4rem;
+}
+
 /*==============================================================*/
+
+/*=============== FOOTER ===============*/
+.footer {
+    overflow: hidden;
+}
+
+.footer__container {
+    position: relative;
+    row-gap: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.footer__container div {
+    margin: 12px;
+}
+
+.footer__logo {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+}
+
+.footer__logo-img {
+    width: 1.5rem;
+}
+
+.footer__description {
+    font-size: var(--small-font-size);
+}
+
+.footer__logo,
+.footer__title {
+    margin-bottom: var(--mb-1);
+}
+
+.footer__title {
+    font-size: var(--h3-font-size);
+}
+
+.footer__links,
+.footer__aviables {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.75rem;
+}
+
+.footer__link {
+    color: var(--text-color);
+    transition: 0.3s;
+}
+
+.footer__link:hover {
+    color: var(--title-color);
+}
+
+.footer__social {
+    font-size: 1.5rem;
+    color: var(--title-color);
+    margin-right: var(--mb-3);
+}
+
+.footer__social:hover {
+    color: var(--first-color);
+    cursor: pointer;
+}
+
+.footer__aviable-img {
+    width: 100px;
+    cursor: pointer;
+}
+
+.footer__copy {
+    display: block;
+    margin: 3.5rem 0 1rem 0;
+    text-align: center;
+    font-size: var(--smaller-font-size);
+    color: var(--text-color-light);
+}
+
+.footer__img1,
+.footer__img2 {
+    position: absolute;
+    width: 100px;
+}
+
+.footer__img1 {
+    top: 25%;
+    right: 2rem;
+}
+
+.footer__img2 {
+    top: 75%;
+    right: -4rem;
+}
 
 
 </style>

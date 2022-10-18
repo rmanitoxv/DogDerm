@@ -41,9 +41,8 @@ class UserController extends Controller
             'password' => 'required|string',
             'isAdmin' => 'required',
         ]);
-
+        
         $fields['password'] = bcrypt($request->password);
-
         $user = User::create($fields);
 
         event(new Registered($user));
@@ -60,7 +59,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::get();
         return response()->json($users);
     }
 
@@ -99,6 +98,14 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $fields = $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'email' => 'required|string',
+            'url' => 'string'
+        ]);
+
+        $request['password'] = bcrypt($request['password']);
         $user = User::findOrFail($id);
         $user->update($request->all());
 
@@ -120,7 +127,6 @@ class UserController extends Controller
 
     public function getToken (Request $request){
         $token = auth()->user();
-
         return $token;
     }
 }

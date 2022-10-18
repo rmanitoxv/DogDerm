@@ -32,6 +32,7 @@
                                 <span class="login__signin" id="sign-up"> Register here!</span>
                             </router-link>
                         </div>
+                        <p v-if="response" class="text-red text-end">{{response}}</p>
                     </form>
                 </div>
             </div>
@@ -59,7 +60,13 @@ export default {
             })
             .catch((error) => {
                 console.log(error)
+                this.response = error.response.data.message
             })
+        }
+    },
+    data() {
+        return{
+            response: null
         }
     }
 }

@@ -14,8 +14,12 @@ module.exports = {
       fourth: '#F99D89',
       fifth: '#324054',
       sixth: '#989898',
+      seventh: '#ECF1F8',
       blue: '#6CBAFE',
-      red: '#FE2A2A'
+      blue1: '#0075FF',
+      red: '#FE2A2A',
+      grey: '#808080',
+      green: '#00BC35'
     }
   },
   plugins: [],

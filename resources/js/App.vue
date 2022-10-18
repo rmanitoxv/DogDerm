@@ -5,6 +5,7 @@
             <div v-if="isAdmin == 0">
                 <Navbar />
                 <router-view></router-view>
+                <Footer />
             </div>
             <div v-else>
                 <div v-bind:class="sidebarClass">
@@ -19,14 +20,19 @@
 </template>
 
 <script>
+    import firebaseConfig from './firebase'
     import Navbar from './layouts/Navbar.vue'
     import Sidebar from './layouts/Sidebar.vue'
+    import Footer from './layouts/Footer.vue'
     import Style from './layouts/Style.vue'
     import parseCookie from './utils/parseCookie'
+    import * as firebase from 'firebase/app'
+    firebase.initializeApp(firebaseConfig)
     export default {
         components: {
             Navbar,
             Sidebar,
+            Footer,
             Style
         },
         methods: {

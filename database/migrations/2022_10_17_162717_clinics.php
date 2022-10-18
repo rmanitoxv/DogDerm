@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('clinics', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('isAdmin')->default(0);
+            $table->string('clinic_name')->unique();
+            $table->string('clinic_address');
+            $table->string('clinic_mobile');
+            $table->string('clinic_landline');
+            $table->string('clinic_email');
             $table->string('url')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('clinics');
     }
 };

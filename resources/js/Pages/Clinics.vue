@@ -1,82 +1,67 @@
 <template>
-
-    <div class="container mb-12 flex flex-col">
-        <!-- FIND NEARBY VETERINARY CLINICS -->
-        <div class="my-5">
+    <div class="container mx-auto mt-20 mb-40">
+        <!-- FIND NEARBY -->
+        <div class="my-3">
             <p class="amiko font-thin text-first text-sm tracking-widest">FIND NEARBY</p>
             <p class="amiko font-bold text-2xl">Veterinary Clinics</p>
         </div>
-        
-        <div class="mt-10 sm:mt-0">
-            <div class="md:grid md:grid-cols-3 md:gap-6">
 
-                <!-- ================ CURRENT LOCATION ================ -->
-                <div class="mt-5 md:col-span-2 md:mt-0">
+        <div class="grid md:grid-cols-2 gap-2 grid-cols-1 three wide column">
+            <form class="ui segment large form" @submit.prevent="findCloseByButtonPressed()">
+                <div class="ui segment">
+                    <!-- LOCATION COORDINATES -->
+                    <div class="field">
+                        <div class="ui right icon input large">
+                            <input type="text" placeholder="Enter your address" v-model="coordinates" />
+                            <i class="dot circle link icon" @click="locatorButtonPressed"></i>
+                        </div>
+                    </div>
 
-                    <!-- ================ START OF FORMS ================ -->
-                    <form action="#" method="POST">
+                    <!-- SELECT -->
+                    <div class="field">
+                        <div class="two fields">
+                            <div class="field">
+                                <select v-model="type">
+                                    <option value="veterinary_care">Veterinary Care</option>
+                                </select>
+                            </div>
 
-                        <div class="overflow-hidden shadow sm:rounded-md">
-
-                            <div class="bg-white px-4 py-5 sm:p-6">
-                                <div class="grid grid-cols-6 gap-6">
-                                    
-                                    <!-- ================ COORDINATES ================ -->
-                                    <div class="col-span-6">
-                                        <label for="coordinates" class="block text-sm font-medium text-gray-700">Location Coordinates</label>
-                                        <input type="text" name="coordinates" id="coordinates" autocomplete="coordinates" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    </div>
-                                    
-                                    <!-- ================ VETERINARY CLINIC OPTIONS ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="services" class="block text-sm font-medium text-gray-700">Veterinary Service</label>
-                                        <select v-model="type" id="services" name="services" autocomplete="services" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                            <option>Veterinary Clinic</option>
-                                            <option>Animal Dermatology</option>
-                                            <option>Animal Hospital</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- ================ DISTANCE ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="last-name" class="block text-sm font-medium text-gray-700">Distance</label>
-                                        <select id="distance" name="distance" autocomplete="distance-name" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                            <option>1 KM</option>
-                                            <option>2 KM</option>
-                                            <option>5 KM</option>
-                                            <option>10 KM</option>
-                                            <option>15 KM</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- ================ FIND CLINIC BUTTON ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <button class="bg-yellow rounded-2xl py-2.5 px-5 text-white button-color font-semibold">Find Clinic</button>
-                                    </div>
-
-                                </div>
+                            <div class="field">
+                                <select v-model="radius">
+                                    <option value="5">5 KM</option>
+                                    <option value="10">10 KM</option>
+                                    <option value="15">15 KM</option>
+                                    <option value="20">20 KM</option>
+                                </select>
                             </div>
                         </div>
-                    </form>
-                    <!-- ================ END OF FORMS ================ -->
+                    </div>
+                    <button class="ui button fill-yellow font-semibold">Find Clinic</button>
                 </div>
-                <!-- ================ END OF CURRENT LOCATION ================ -->
-
-
-            </div>
-            <div class="md:grid md:grid-cols-3 md:gap-6 absolute">
-                <div class="mapouter">
-                        <!-- syempre sample lang i2 -->
-                        <div class="gmap_canvas"><iframe class="gmap_iframe" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-                            src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=intramuros&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                            style=".mapouter{position:relative;text-align:right;width:400px;height:500px;}.gmap_canvas {overflow:hidden;background:none!important;width:400px;height:500px;}.gmap_iframe {height:400px!important;}"
-                            ></iframe>
+                
+                <!-- LIST OF PLACES -->
+                <div class="ui segment"  style="max-height:500px;overflow:scroll">
+                    <div class="ui divided items">
+                        <div class="item" v-for="place in places" :key="place.id">
+                            <div class="content">
+                                <div class="header">{{place.name}}</div>
+                                <div class="meta">{{place.vicinity}}</div>
+                            </div>
                         </div>
+                    </div>
                 </div>
+            </form>
+            
+            <div class="ten wide column segment ui m-0" ref="map">
+                <!-- <iframe class="gmap_iframe" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+                    src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=intramuros&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                    style=".mapouter{position:relative;text-align:right;width:600px;height:500px;}.gmap_canvas {overflow:hidden;background:none!important;width:600px;height:500px;}.gmap_iframe {height:400px!important;}"
+                    ></iframe> -->
             </div>
+            
         </div>
-    </div>
 
+    </div>
     
 
     <div class="container mx-auto mb-40">
@@ -97,9 +82,10 @@
             <div class="flex-initial w-45 py-3 pl-5 inline-block">
                 <p class="amiko font-bold text-lg">ManilaVets Animal Clinic</p>
                 <ul>
-                    <li class="poppins text-sm"><i class='bx bx-location-plus fill-yellow '></i> 1234 Lorem ipsum Example Street, City</li>
-                    <li class="poppins text-sm"><i class='bx bxs-phone-call fill-yellow'></i> 912 345 678</li>
-                    <li class="poppins text-sm"><i class='bx bx-envelope fill-yellow'></i>juandelacruz@gmail.com</li>
+                    <li class="poppins text-sm"><i class='bx bx-location-plus text-first'></i> &nbsp; 1234 Lorem ipsum
+                        Example Street, City</li>
+                    <li class="poppins text-sm"><i class='bx bxs-phone-call text-first'></i> &nbsp; 912 345 678</li>
+                    <li class="poppins text-sm"><i class='bx bx-envelope text-first'></i> &nbsp; juandelacruz@gmail.com</li>
                 </ul>
             </div>
         </div>
@@ -114,93 +100,102 @@
             <div class="flex-initial w-45 py-3 pl-5 inline-block">
                 <p class="amiko font-bold text-lg">ManilaVets Animal Clinic</p>
                 <ul>
-                    <li class="poppins text-sm">1234 Lorem ipsum Example Street, City</li>
-                    <li class="poppins text-sm">912 345 678</li>
-                    <li class="poppins text-sm">juandelacruz@gmail.com</li>
+                    <li class="poppins text-sm"><i class='bx bx-location-plus text-first'></i> &nbsp; 1234 Lorem ipsum
+                        Example Street, City</li>
+                    <li class="poppins text-sm"><i class='bx bxs-phone-call text-first'></i> &nbsp; 912 345 678</li>
+                    <li class="poppins text-sm"><i class='bx bx-envelope text-first'></i> &nbsp; juandelacruz@gmail.com</li>
                 </ul>
             </div>
         </div>
 
     </div>
 
-
-
-        <!-- component -->
-        <div class="flex flex-col">
-            <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2">
-                <!-- ================ CURRENT LOCATION ================ -->
-                <div class="flex items-start rounded-xl bg-white p-4 shadow-md">
-                        <!-- ================ START OF FORMS ================ -->
-                        <form action="#" method="POST">
-
-                            <div class="overflow-hidden sm:rounded-md">
-
-                                <div class="bg-white px-4 py-5 sm:p-6">
-                                    
-                                    <!-- ================ COORDINATES ================ -->
-                                    <div class="col-span-6">
-                                        <label for="coordinates" class="block text-sm font-medium text-gray-700">Location Coordinates</label>
-                                        <input type="text" name="coordinates" id="coordinates" autocomplete="coordinates" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                    </div>
-                                    
-                                    <!-- ================ VETERINARY CLINIC OPTIONS ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="services" class="block text-sm font-medium text-gray-700">Veterinary Service</label>
-                                        <select v-model="type" id="services" name="services" autocomplete="services" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                            <option>Veterinary Clinic</option>
-                                            <option>Animal Dermatology</option>
-                                            <option>Animal Hospital</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <!-- ================ DISTANCE ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="last-name" class="block text-sm font-medium text-gray-700">Distance</label>
-                                        <select id="distance" name="distance" autocomplete="distance-name" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
-                                            <option>1 KM</option>
-                                            <option>2 KM</option>
-                                            <option>5 KM</option>
-                                            <option>10 KM</option>
-                                            <option>15 KM</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- ================ FIND CLINIC BUTTON ================ -->
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <button class="bg-yellow rounded-2xl py-2.5 px-5 text-white button-color font-semibold">Find Clinic</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- ================ END OF FORMS ================ -->
-                    </div>
-                <!-- ================ END OF CURRENT LOCATION ================ -->
-
-                <div class="flex items-start rounded-xl bg-white p-4 shadow-md">
-                    <div class="mapouter">
-                        <!-- syempre sample lang i2 -->
-                        <div class="gmap_canvas"><iframe class="gmap_iframe" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
-                            src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=intramuros&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                            style=".mapouter{position:relative;text-align:right;width:400px;height:500px;}.gmap_canvas {overflow:hidden;background:none!important;width:400px;height:500px;}.gmap_iframe {height:400px!important;}"
-                            ></iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 </template>
 
-<script setup>
-// export default {
-//     data() {
-//         return {
-//             type: "",
-//             radius: ""
-//         };
-//     },
-//     methods: {
-//         locatorButtonPressed
-//     }
-// }
+<script>
+
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            lat: 0,
+            lng: 0,
+            type: "veterinary_care",
+            radius: "",
+            places: []
+        };
+    },
+    computed: {
+        coordinates() {
+            return `${this.lat}, ${this.lng}`;
+        }
+    },
+    async mounted() {
+        const externalScript = document.createElement('script')
+        externalScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o')
+        document.head.appendChild(externalScript)
+    },
+    methods: {
+        locatorButtonPressed() {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    this.lat = position.coords.latitude;
+                    this.lng = position.coords.longitude;
+                },
+                error => {
+                    console.log("Error getting location");
+                }
+            );
+        },
+
+        findCloseByButtonPressed() {
+            const URL = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?
+                                location=${this.lat},${this.lng}
+                                &type=${this.type}
+                                &radius=${this.radius * 1000}
+                                &key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o`;
+
+            axios
+                .get(URL)
+                .then(response => {
+                    console.log(response.data)
+                    this.places = response.data.results;
+                    this.addLocationsToGoogleMaps();
+                })
+                .catch(error => {
+                console.log(error);
+            });
+        },
+
+        addLocationsToGoogleMaps() {
+            var map = new google.maps.Map(this.$refs['map'], {
+                zoom: 15,
+                center: new google.maps.LatLng(this.lat, this.lng),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+
+            this.places.forEach(place => {
+                const lat = place.geometry.location.lat;
+                const lng = place.geometry.location.lng;
+
+                let marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, lng),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, "click", () => {
+                    infowindow.setContent(
+                        `<div class="ui header">${place.name}</div><p>${place.vicinity}</p>`
+                    );
+
+                    infowindow.open(map, marker);
+                });
+            });
+        }
+    }
+}
 
 </script>

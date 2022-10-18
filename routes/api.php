@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DiseaseController;
+use App\Http\Controllers\ClinicsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,7 @@ use App\Http\Controllers\UserController;
 //Public Routes
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
+Route::get('/disease', [DiseaseController::class, 'index']);
 
 //Protected Routes
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -31,3 +34,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 });
 
+//----------------------DISEASES-------------------------//
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/disease/{id}', [DiseaseController::class, 'show']);
+    Route::put('/disease/{id}', [DiseaseController::class, 'update']);
+    Route::post('/disease', [DiseaseController::class, 'store']);
+    Route::delete('/disease/{id}', [DiseaseController::class, 'destroy']);
+});
+
+//----------------------CLINICS-------------------------//
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/clinics', [ClinicsController::class, 'index']);
+    Route::get('/clinics/{id}', [ClinicsController::class, 'show']);
+    Route::put('/clinics/{id}', [ClinicsController::class, 'update']);
+    Route::post('/clinics', [ClinicsController::class, 'store']);
+    Route::delete('/clinics/{id}', [ClinicsController::class, 'destroy']);
+});

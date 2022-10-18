@@ -31,6 +31,7 @@
                             <i class='bx bx-lock-alt login__icon'></i>
                             <input type="password" placeholder="Password" class="login__input" id="password">
                         </div>
+                        <input type="file" accept=".jpeg,.jpg,.png,.svg" class="opacity-0 absolute bottom-0" id="upload" value="/images/sample-profile.svg"/>
 
                         <button class="login__button w-full">Create Account</button>
 
@@ -38,6 +39,7 @@
                             <span class="login__account">Already have an Account?</span>
                             <router-link to="/login"><span class="login__signup" id="sign-in"> Sign In here!</span></router-link>
                         </div>
+                        <p v-if="response" class="text-red text-end">{{response}}</p>
                     </form>
                 </div>
             </div>
@@ -51,18 +53,26 @@ import axios from 'axios';
         methods: {
             registerForm() {
                 axios.post('/api/register/', {
+                    image: upload.value,
                     first_name: first_name.value, 
                     last_name: last_name.value,
                     email: email.value,
                     password: password.value,
-                    isAdmin: 0
+                    isAdmin: 0,
                 })
                 .then((response) => {
-                    console.log(response)
+                    document.cookie =`token=${response.data}`;
+                    this.$router.push({ name: "Homepage" })
                 })
                 .catch((error) => {
                     console.log(error)
+                    this.response = error.response.data.message
                 })
+            }
+        },
+        data(){
+            return{
+                response: null
             }
         }
     }

@@ -1,75 +1,53 @@
 <template>
-    <div class="main-container container mx-auto" id="app">
+    <div class="container my-20 mx-auto" id="app">
         <!-- MAIN TITLE -->
-        <div class="mt-6 my-3">
+        <div class="my-3">
             <p class="amiko font-thin text-first text-sm tracking-widest">LEARN MORE ABOUT</p>
-            <p class="amiko font-bold text-2xl">Dog Skin Diseases</p>
+            <p class="amiko font-bold text-2xl">Dog Skin Disease</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4 grid-cols-2">
+        <div class="grid md:grid-cols-3 gap-7 grid-cols-2">
             <!-- INDIV ARTICLE CONTAINER -->
-            <div class="rounded-xl bg-white drop-shadow-lg">
+            <div v-for="item in datas" class="rounded-xl bg-white drop-shadow-lg">
                 <!-- IMAGE -->
-                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt=""/></router-link>
+                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt="" />
+                </router-link>
                 <!-- ARTICLE INFO CONTAINER -->
                 <div class="p-4">
-                    <router-link to="/"><label class="amiko font-bold text-2xl cursor-pointer">Title</label></router-link>
+                    <router-link to="/"><label class="amiko font-bold text-2xl cursor-pointer">{{item.disease}}</label>
+                    </router-link>
                     <p class="poppins text-sm mb-3 text-sixth">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Cras tempus id leo et aliquam.
+                        {{item.overview}}
                     </p>
-                    <router-link to="/"><button class="poppins font-semibold text-sm bg-first hover:bg-sixth rounded-xl p-2 hover:text-second">Read More -></button></router-link>
-                </div>
-            </div>
-
-            <!-- INDIV ARTICLE CONTAINER -->
-            <div class="rounded-xl bg-white drop-shadow-lg">
-                <!-- IMAGE -->
-                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt=""/></router-link>
-                <!-- ARTICLE INFO CONTAINER -->
-                <div class="p-4">
-                    <router-link to="/"><label class="amiko font-bold text-2xl cursor-pointer">Title</label></router-link>
-                    <p class="poppins text-sm mb-3 text-sixth">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Cras tempus id leo et aliquam.
-                    </p>
-                    <router-link to="/"><button class="poppins font-semibold text-sm bg-first hover:bg-sixth rounded-xl p-2 hover:text-second">Read More -></button></router-link>
-                </div>
-            </div>
-
-            <!-- INDIV ARTICLE CONTAINER -->
-            <div class="rounded-xl bg-white drop-shadow-lg">
-                <!-- IMAGE -->
-                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt=""/></router-link>
-                <!-- ARTICLE INFO CONTAINER -->
-                <div class="p-4">
-                    <router-link to="/"><label class="amiko font-bold text-2xl cursor-pointer">Title</label></router-link>
-                    <p class="poppins text-sm mb-3 text-sixth">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Cras tempus id leo et aliquam.
-                    </p>
-                    <router-link to="/"><button class="poppins font-semibold text-sm bg-first hover:bg-sixth rounded-xl p-2 hover:text-second">Read More -></button></router-link>
-                </div>
-            </div>
-
-            <!-- INDIV ARTICLE CONTAINER -->
-            <div class="rounded-xl bg-white drop-shadow-lg">
-                <!-- IMAGE -->
-                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt=""/></router-link>
-                <!-- ARTICLE INFO CONTAINER -->
-                <div class="p-4">
-                    <router-link to="/"><label class="amiko font-bold text-2xl cursor-pointer">Title</label></router-link>
-                    <p class="poppins text-sm mb-3 text-sixth">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Cras tempus id leo et aliquam.
-                    </p>
-                    <router-link to="/"><button class="poppins font-semibold text-sm bg-first hover:bg-sixth rounded-xl p-2 hover:text-second">Read More -></button></router-link>
+                    <router-link to="/"><button
+                            class="poppins font-semibold text-sm bg-first hover:bg-second rounded-full py-2 px-3 hover:text-second text-white">Read
+                            More <i class='bx bx-right-arrow-alt align-middle'></i></button></router-link>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<style>
-
-</style>
+<script>
+export default {
+    data() {
+        return {
+            datas: {}
+        }
+    },
+    methods: {
+        getDatas() {
+            axios.get('/api/disease/')
+            .then((response) => {
+                this.datas = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
+    },
+    created(){
+        this.getDatas()
+    }
+}
+</script>
