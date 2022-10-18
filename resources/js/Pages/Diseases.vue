@@ -10,7 +10,7 @@
             <!-- INDIV ARTICLE CONTAINER -->
             <div v-for="item in datas" class="rounded-xl bg-white drop-shadow-lg">
                 <!-- IMAGE -->
-                <router-link to="/"><img class="object-cover rounded-t-lg" src="/images/placeholder.svg" alt="" />
+                <router-link to="/"><img class="object-contain rounded-t-lg" :src="item.url" alt="" />
                 </router-link>
                 <!-- ARTICLE INFO CONTAINER -->
                 <div class="p-4">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default {
     data() {
         return {
@@ -40,6 +41,17 @@ export default {
             axios.get('/api/disease/')
             .then((response) => {
                 this.datas = response.data
+                for (let i = 0; i < this.datas.length; i++) {
+                    const storage = getStorage();
+                    let url = this.datas[i].url
+                    getDownloadURL(ref(storage, 'images/' + url))
+                        .then((response) => {
+                            this.datas[i].url = response
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
             })
             .catch((error) => {
                 console.log(error)

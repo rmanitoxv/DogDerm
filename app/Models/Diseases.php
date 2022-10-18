@@ -13,7 +13,8 @@ class Diseases extends Model
         'overview',
         'causes',
         'treatment',
-        'prevention'
+        'prevention',
+        'url'
     ];
 
     public function diseases_image()

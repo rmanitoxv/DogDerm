@@ -39,7 +39,7 @@
                                     <input type="checkbox" v-bind:id="item.id" />
                                 </div>
                                 <div class="font-medium w-[50%]">
-                                    <img src="/images/circle.svg" />
+                                    <img :src="item.url" class="w-9 h-9 object-cover" />
                                 </div>
                                 <div class="font-medium w-full">{{item.disease}}</div>
                                 <div class="font-medium w-full">{{item.overview}}</div>
@@ -68,6 +68,7 @@
 <script>
 import parseCookie from '../../utils/parseCookie'
 import DatabaseCount from '../../components/DatabaseCount.vue'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default {
     components: {
         DatabaseCount
@@ -77,7 +78,8 @@ export default {
     },
     data() {
         return {
-            diseases: {}
+            diseases: {},
+            url: null
         }
     },
     methods: {
@@ -89,6 +91,17 @@ export default {
             })
                 .then((response) => {
                     this.diseases = response.data
+                    for (let i = 0; i < this.diseases.length; i++) {
+                        const storage = getStorage();
+                        let url = this.diseases[i].url
+                        getDownloadURL(ref(storage, 'images/' + url))
+                            .then((response) => {
+                                this.diseases[i].url = response
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
@@ -106,7 +119,7 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
-        }
+        },
     },
     created() {
         this.getDiseases()

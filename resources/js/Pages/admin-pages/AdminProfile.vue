@@ -14,7 +14,7 @@
                     <img v-else src="/images/sample-profile.svg"
                         class="rounded-full w-[21.625rem] h-[21.625rem] object-cover" />
                     <label for="upload"
-                        class="w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg cursor-pointer">
+                        :class="labelClass">
                         Upload Image
                     </label>
                     <input type="file" :disabled="validated == 1" id="upload" accept=".jpeg,.jpg,.png,.svg"
@@ -89,7 +89,8 @@ export default {
             responseClass: null,
             url: null,
             file: null,
-            dburl: null
+            dburl: null,
+            labelClass: 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
         }
     },
     mounted() {
@@ -98,6 +99,12 @@ export default {
     methods: {
         editProfile() {
             this.validated = !this.validated
+            if (this.labelClass == 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'){
+                this.labelClass = 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg cursor-pointer'
+            }
+            else{
+                this.labelClass = 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+            }
         },
         getUserData() {
             axios.get('/api/get_token/', {

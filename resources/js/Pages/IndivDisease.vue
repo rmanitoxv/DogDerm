@@ -83,7 +83,7 @@
                 </div>
 
                 <!-- CAUSES AND SYMPTOMS -->
-                <h3 class="amiko text-blue font-bold text-2xl my-2" id="causes-symptoms">CAUSES AND SYMPTOMS</h3>
+                <h3 class="amiko text-blue font-bold text-2xl my-2" id="causes-symptoms"><i class='bx bx-search align-middle'></i> CAUSES AND SYMPTOMS</h3>
                 <!-- causes -->
                 <label class="amiko text-third font-semibold text-lg my-2">Causes</label>
                 <div class="desc-container">
@@ -104,7 +104,7 @@
                 </div>
 
                 <!-- MANAGEMENT AND TREATMENT -->
-                <h3 class="amiko text-blue font-bold text-2xl my-2" id="management-treatment">MANAGEMENT AND TREATMENT</h3>
+                <h3 class="amiko text-blue font-bold text-2xl my-2" id="management-treatment"><i class='bx bx-plus-medical align-middle' ></i> MANAGEMENT AND TREATMENT</h3>
                 <div class="desc-container">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus id leo et aliquam. Proin
                     consectetur ligula vel neque cursus laoreet. Nullam dignissim, augue at consectetur pellentesque, metus
@@ -112,7 +112,7 @@
                 </div>
 
                 <!-- PREVENTION -->
-                <h3 class="amiko text-blue font-bold text-2xl my-2" id="prevention">PREVENTION</h3>
+                <h3 class="amiko text-blue font-bold text-2xl my-2" id="prevention"><i class='bx bxs-hand align-middle'></i> PREVENTION</h3>
                 <div class="desc-container">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tempus id leo et aliquam. Proin
                     consectetur ligula vel neque cursus laoreet. Nullam dignissim, augue at consectetur pellentesque, metus

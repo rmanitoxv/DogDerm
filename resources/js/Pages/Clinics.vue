@@ -7,7 +7,7 @@
         </div>
 
         <div class="grid md:grid-cols-2 gap-2 grid-cols-1 three wide column">
-            <form class="ui segment large form" @submit.prevent="findCloseByButtonPressed()">
+            <form class="ui segment large form m-0" @submit.prevent="findCloseByButtonPressed()">
                 <div class="ui segment">
                     <!-- LOCATION COORDINATES -->
                     <div class="field">
@@ -22,16 +22,19 @@
                         <div class="two fields">
                             <div class="field">
                                 <select v-model="type">
+                                    <!-- <option value="restaurant">Restaurant</option> -->
                                     <option value="veterinary_care">Veterinary Care</option>
                                 </select>
                             </div>
 
                             <div class="field">
-                                <select v-model="radius">
+                                <select v-model="radius" id="radius">
                                     <option value="5">5 KM</option>
                                     <option value="10">10 KM</option>
                                     <option value="15">15 KM</option>
                                     <option value="20">20 KM</option>
+                                    <option value="20">25 KM</option>
+                                    <option value="20">30 KM</option>
                                 </select>
                             </div>
                         </div>
@@ -44,7 +47,7 @@
                     <div class="ui divided items">
                         <div class="item" v-for="place in places" :key="place.id">
                             <div class="content">
-                                <div class="header">{{place.name}}</div>
+                                <div class="amiko font-bold text-lg">{{place.name}}</div>
                                 <div class="meta">{{place.vicinity}}</div>
                             </div>
                         </div>
@@ -121,6 +124,7 @@ export default {
         return {
             lat: 0,
             lng: 0,
+            // type: "restaurant",
             type: "veterinary_care",
             radius: "",
             places: []
@@ -150,16 +154,11 @@ export default {
         },
 
         findCloseByButtonPressed() {
-            const URL = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?
-                                location=${this.lat},${this.lng}
-                                &type=${this.type}
-                                &radius=${this.radius * 1000}
-                                &key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o`;
+            const URL = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.lat},${this.lng}&type=${this.type}&radius=${radius.value * 1000}&key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o`;
 
             axios
                 .get(URL)
                 .then(response => {
-                    console.log(response.data)
                     this.places = response.data.results;
                     this.addLocationsToGoogleMaps();
                 })
