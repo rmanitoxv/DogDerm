@@ -21,7 +21,8 @@ class DiseaseController extends Controller
             'overview' => 'required|string',
             'causes' => 'required|string',
             'treatment' => 'required|string',
-            'prevention' => 'required|string'
+            'prevention' => 'required|string',
+            'url' => 'string'
         ]);
 
         $diseases = Diseases::create([
@@ -29,7 +30,8 @@ class DiseaseController extends Controller
             'overview' => $fields['overview'],
             'causes' => $fields['causes'],
             'treatment' => $fields['treatment'],
-            'prevention' => $fields['prevention']
+            'prevention' => $fields['prevention'],
+            'url' => $fields['url']
         ]);
 
         $response = [

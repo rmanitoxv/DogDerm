@@ -13,7 +13,8 @@ class Clinics extends Model
         'clinic_address',
         'clinic_mobile',
         'clinic_landline',
-        'clinic_email'
+        'clinic_email',
+        'url'
     ];
 
     public function clinics_image()
