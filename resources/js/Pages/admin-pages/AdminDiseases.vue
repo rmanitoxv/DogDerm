@@ -39,14 +39,14 @@
                                     <input type="checkbox" v-bind:id="item.id" />
                                 </div>
                                 <div class="font-medium w-[50%]">
-                                    <img :src="item.url" class="w-9 h-9 object-cover" />
+                                    <img :src="item.url" class="w-9 h-9 object-cover rounded-full" />
                                 </div>
                                 <div class="font-medium w-full">{{item.disease}}</div>
                                 <div class="font-medium w-full">{{item.overview}}</div>
                                 <div class="font-medium w-full">{{item.causes}}</div>
                                 <div class="font-medium w-full">{{item.treatment}}</div>
                                 <div class="font-medium w-full">{{item.prevention}}</div>
-                                <div class="font-medium w-[50%] text-white">
+                                <div class=" flex font-medium w-[50%] text-white">
                                     <button class="bg-blue w-[2.25rem] h-[2.25rem] rounded-xl mx-[0.25rem]"
                                         @click="$router.push({ name: 'EditDisease', params: { id: item.id } })">
                                         <i class='bx bx-edit text-base'></i>
@@ -91,17 +91,6 @@ export default {
             })
                 .then((response) => {
                     this.diseases = response.data
-                    for (let i = 0; i < this.diseases.length; i++) {
-                        const storage = getStorage();
-                        let url = this.diseases[i].url
-                        getDownloadURL(ref(storage, 'images/' + url))
-                            .then((response) => {
-                                this.diseases[i].url = response
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                            })
-                    }
                 })
                 .catch((error) => {
                     console.log(error)

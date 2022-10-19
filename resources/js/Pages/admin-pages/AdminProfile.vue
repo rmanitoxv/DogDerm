@@ -63,7 +63,7 @@
                             @click="editProfile()">
                             Edit
                         </button>
-                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg">
+                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg" :disabled="validated == 1">
                             Save
                         </button>
                     </div>
@@ -90,6 +90,7 @@ export default {
             url: null,
             file: null,
             dburl: null,
+            isLoading: false,
             labelClass: 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
         }
     },
@@ -114,14 +115,7 @@ export default {
             })
                 .then((response) => {
                     this.datas = response.data
-                    const storage = getStorage();
-                    getDownloadURL(ref(storage, 'images/' + this.datas.url))
-                        .then((url) => {
-                            this.url = url
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
+                    this.url = response.data.url
                 })
                 .catch((error) => {
                     console.log(error)
@@ -133,7 +127,7 @@ export default {
                 last_name: last_name.value,
                 email: email.value,
                 password: password.value,
-                url: this.dburl
+                url: this.url
             },
                 {
                     headers: {
@@ -152,16 +146,24 @@ export default {
                     console.log(error)
                 })
         },
-        afterComplete(e) {
+        async afterComplete(e) {
             if (this.file) {
+                this.isLoading = true;
                 const file = e;
                 const re = /(?:\.([^.]+))?$/;
                 const ext = re.exec(file.name)[1];
                 const fileName = uuid() + '.' + ext ;
                 const storage = getStorage();
                 const storageRef = ref(storage, 'images/' + fileName);
-                uploadBytesResumable(storageRef, file);
-                this.dburl = fileName
+                await uploadBytesResumable(storageRef, file);
+                getDownloadURL(storageRef)
+                    .then((url) => {
+                        this.url = url
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                
             }
             this.saveProfile(this.datas.id)
         },

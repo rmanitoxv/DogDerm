@@ -41,17 +41,6 @@ export default {
             axios.get('/api/disease/')
             .then((response) => {
                 this.datas = response.data
-                for (let i = 0; i < this.datas.length; i++) {
-                    const storage = getStorage();
-                    let url = this.datas[i].url
-                    getDownloadURL(ref(storage, 'images/' + url))
-                        .then((response) => {
-                            this.datas[i].url = response
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                }
             })
             .catch((error) => {
                 console.log(error)

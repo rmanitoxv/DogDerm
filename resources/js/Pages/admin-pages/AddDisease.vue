@@ -62,8 +62,8 @@
                         </div>
                     </div>
                     <div class="flex align-items-center mt-[1rem] justify-end">
-                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg">
-                            Add
+                        <button :class="buttonClass" :disabled="saving">
+                            {{ status }}
                         </button>
                     </div>
                     <p v-if="response" class="text-red text-end">{{response}}</p>
@@ -79,13 +79,16 @@ import { v4 as uuid } from 'uuid';
 export default {
     methods: {
         addDisease() {
+            this.saving = 1
+            this.status = 'Saving...'
+            this.buttonClass = 'w-[7.5rem] bg-grey cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
             axios.post('/api/disease/', {
                 disease: disease.value,
                 overview: overview.value,
                 causes: causes.value,
                 treatment: treatment.value,
                 prevention: prevention.value,
-                url: this.dburl
+                url: this.url
             },
                 {
                     headers: {
@@ -101,7 +104,7 @@ export default {
                     this.response = error.response.data.message
                 })
         },
-        afterComplete(e) {
+        async afterComplete(e) {
             if (this.file) {
                 const file = e;
                 const re = /(?:\.([^.]+))?$/;
@@ -109,8 +112,14 @@ export default {
                 const fileName = uuid() + '.' + ext ;
                 const storage = getStorage();
                 const storageRef = ref(storage, 'images/' + fileName);
-                uploadBytesResumable(storageRef, file);
-                this.dburl = fileName
+                await uploadBytesResumable(storageRef, file);
+                getDownloadURL(storageRef)
+                    .then((url) => {
+                        this.url = url
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
             this.addDisease()
         },
@@ -128,6 +137,9 @@ export default {
             url: null,
             file: null,
             dburl: null,
+            status: 'Add',
+            saving: 0,
+            buttonClass: 'w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
         }
     }
 }
