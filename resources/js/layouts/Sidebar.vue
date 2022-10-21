@@ -9,10 +9,11 @@
                 <span class="text-2xl text-second barlow">Derma</span>
             </div>
             <div class="flex mx-3 align-items-center mb-5">
-                <img src="/images/sample-profile.svg" class="w-10 mr-2" />
+                <img v-if="url" :src="url" class="w-10 mr-2 rounded-full"/>
+                <img v-else src="/images/sample-profile.svg" class="w-10 mr-2" />
                 <div>
-                    <p class="poppins text-2xl text-second m-0">Juan Dela Cruz</p>
-                    <p class="poppins text-xs text-third">jdelacruz@email.com</p>
+                    <p class="poppins text-2xl text-second m-0">{{ datas.first_name }} {{ datas.last_name }}</p>
+                    <p class="poppins text-xs text-third">{{ datas.email }}</p>
                 </div>
             </div>
             <div v-if="currentRoute == 'AdminProfile'">
@@ -22,7 +23,7 @@
                 </div>
             </div>
             <div v-else>
-                <router-link to="/adminprofile">
+                <router-link to="/admin/profile">
                     <div class="flex p-3 rounded-md align-items-center">
                         <i class='bx bxs-user-circle text-xl text-fifth mr-4'></i>
                         <p class="poppins text-base text-fifth">Profile</p>
@@ -36,7 +37,7 @@
                 </div>
             </div>
             <div v-else>
-                <router-link to="/admindiseases">
+                <router-link to="/admin/diseases">
                     <div class="flex p-3 rounded-md align-items-center">
                         <i class='bx bxs-virus text-xl text-fifth mr-4'></i>
                         <p class="poppins text-base text-fifth">Disease</p>
@@ -50,7 +51,7 @@
                 </div>
             </div>
             <div v-else>
-                <router-link to="/adminclinics">
+                <router-link to="/admin/clinics">
                     <div class="flex p-3 rounded-md align-items-center">
                         <i class='bx bxs-clinic text-xl text-fifth mr-4' ></i>
                         <p class="poppins text-base text-fifth">Clinics</p>
@@ -64,7 +65,7 @@
                 </div>
             </div>
             <div v-else>
-                <router-link to="/adminusers">
+                <router-link to="/admin/users">
                     <div class="flex p-3 rounded-md align-items-center mb-32">
                         <i class='bx bxs-user-account text-xl text-fifth mr-4' ></i>
                         <p class="poppins text-base text-fifth">Users</p>
@@ -109,10 +110,38 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
+        },
+        getData(){
+            axios.get('/api/get_token/', {
+                headers: {
+                    "Authorization": `Bearer ${parseCookie(document.cookie).token}`
+                }
+            })
+            .then((response) => {
+                this.data = response.data
+                const storage = getStorage();
+                const storageRef = ref(storage, 'images/' + response.data.url);
+                getDownloadURL(storageRef)
+                    .then((url) => {
+                        this.url = url
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
     },
     props:{
         sidebarFunction: Function
+    },
+    data(){
+        return{
+            data: {},
+            url: null
+        }
     }
 }
 </script>

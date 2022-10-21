@@ -47,16 +47,16 @@ const routes = [
     { path: '/indiv', name: 'IndivDisease', component: IndivDisease },
     
     // Admin Routes
-    { path: '/adminprofile', name: 'AdminProfile', component: AdminProfile },
-    { path: '/admindiseases', name: 'AdminDiseases', component: AdminDiseases },
-    { path: '/adminclinics', name: 'AdminClinics', component: AdminClinics },
-    { path: '/adminusers', name: 'AdminUsers', component: AdminUsers },
-    { path: '/adddisease', name: 'AddDisease', component: AddDisease },
-    { path: '/editdisease/:id', name: 'EditDisease', component: EditDisease },
-    { path: '/addclinics', name: 'AddClinics', component: AddClinics },
-    { path: '/editclinics/:id', name: 'EditClinics', component: EditClinics },
-    { path: '/adduser', name: 'AddUser', component: AddUser },
-    { path: '/edituser/:id', name: 'EditUser', component: EditUser },
+    { path: '/admin/profile', name: 'AdminProfile', component: AdminProfile },
+    { path: '/admin/diseases', name: 'AdminDiseases', component: AdminDiseases },
+    { path: '/admin/clinics', name: 'AdminClinics', component: AdminClinics },
+    { path: '/admin/users', name: 'AdminUsers', component: AdminUsers },
+    { path: '/admin/adddisease', name: 'AddDisease', component: AddDisease },
+    { path: '/admin/editdisease/:id', name: 'EditDisease', component: EditDisease },
+    { path: '/admin/addclinics', name: 'AddClinics', component: AddClinics },
+    { path: '/admin/editclinics/:id', name: 'EditClinics', component: EditClinics },
+    { path: '/admin/adduser', name: 'AddUser', component: AddUser },
+    { path: '/admin/edituser/:id', name: 'EditUser', component: EditUser },
 ]
 
 

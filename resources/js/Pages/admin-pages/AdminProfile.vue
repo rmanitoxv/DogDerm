@@ -54,7 +54,7 @@
                         </label>
                         <div class="login__box1 w-[18.75rem] mt-0">
                             <input :disabled="validated == 1" type="password" placeholder="Password"
-                                class="login__input" id="password" :value="datas.password" />
+                                class="login__input" id="password" value="" />
                         </div>
                     </div>
                     <div class="flex align-items-center mt-[1rem] justify-end">
@@ -63,8 +63,8 @@
                             @click="editProfile()">
                             Edit
                         </button>
-                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg" :disabled="validated == 1">
-                            Save
+                        <button :class="buttonClass" :disabled="validated == 1">
+                            {{ buttonLabel }}
                         </button>
                     </div>
                     <p v-if="response" :class="responseClass">{{response}}</p>
@@ -91,7 +91,9 @@ export default {
             file: null,
             dburl: null,
             isLoading: false,
-            labelClass: 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+            labelClass: 'w-[15.5rem] bg-grey text-white py-3 rounded-2xl mt-[2.5rem] text-lg',
+            buttonClass: 'w-[7.5rem] bg-grey text-white py-2 rounded-3xl mt-[2.5rem] text-lg',
+            buttonLabel: 'Save'
         }
     },
     mounted() {
@@ -100,11 +102,13 @@ export default {
     methods: {
         editProfile() {
             this.validated = !this.validated
-            if (this.labelClass == 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'){
+            if (this.labelClass == 'w-[15.5rem] bg-grey text-white py-3 rounded-2xl mt-[2.5rem] text-lg'){
                 this.labelClass = 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg cursor-pointer'
+                this.buttonClass = "w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg"
             }
             else{
-                this.labelClass = 'w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+                this.labelClass = 'w-[15.5rem] bg-grey text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+                this.buttonClass = "w-[7.5rem] bg-grey text-white py-2 rounded-3xl mt-[2.5rem] text-lg"
             }
         },
         getUserData() {
@@ -115,38 +119,79 @@ export default {
             })
                 .then((response) => {
                     this.datas = response.data
-                    this.url = response.data.url
+                    const storage = getStorage();
+                    const storageRef = ref(storage, 'images/' + response.data.url);
+                    getDownloadURL(storageRef)
+                    .then((url) => {
+                        this.url = url
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
                 })
                 .catch((error) => {
                     console.log(error)
                 })
         },
         saveProfile(id) {
-            axios.put(`/api/user/${id}`, {
-                first_name: first_name.value,
-                last_name: last_name.value,
-                email: email.value,
-                password: password.value,
-                url: this.url
-            },
-                {
-                    headers: {
-                        "Authorization": `Bearer ${parseCookie(document.cookie).token}`,
-                    }
-                })
-                .then((response) => {
-                    this.datas = response.data
-                    this.validated = 1
-                    this.response = "Successfully Saved"
-                    this.responseClass = "text-green text-end"
-                })
-                .catch((error) => {
-                    this.response = "There was an Error Editing Profile"
-                    this.responseClass = "text-red text-end"
-                    console.log(error)
-                })
+            if (password.value == ''){
+                axios.put(`/api/user/${id}`, {
+                    first_name: first_name.value,
+                    last_name: last_name.value,
+                    email: email.value,
+                    url: this.dburl
+                },
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${parseCookie(document.cookie).token}`,
+                        }
+                    })
+                    .then((response) => {
+                        this.datas = response.data
+                        this.validated = 1
+                        this.response = "Successfully Saved"
+                        this.responseClass = "text-green text-end"
+                        this.buttonLabel = 'Save'
+                        this.labelClass = 'w-[15.5rem] bg-grey text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+                    })
+                    .catch((error) => {
+                        this.response = "There was an Error Editing Profile"
+                        this.responseClass = "text-red text-end"
+                        console.log(error)
+                    })
+            }
+            else{
+                axios.put(`/api/user/${id}`, {
+                    first_name: first_name.value,
+                    last_name: last_name.value,
+                    email: email.value,
+                    password: password.value,
+                    url: this.dburl
+                },
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${parseCookie(document.cookie).token}`,
+                        }
+                    })
+                    .then((response) => {
+                        this.datas = response.data
+                        this.validated = 1
+                        this.response = "Successfully Saved"
+                        this.responseClass = "text-green text-end"
+                        this.buttonLabel = 'Save'
+                        this.labelClass = 'w-[15.5rem] bg-grey text-white py-3 rounded-2xl mt-[2.5rem] text-lg'
+                    })
+                    .catch((error) => {
+                        this.response = "There was an Error Editing Profile"
+                        this.responseClass = "text-red text-end"
+                        console.log(error)
+                    })
+            }
         },
         async afterComplete(e) {
+            this.validated = 1
+            this.buttonClass = "w-[7.5rem] bg-grey text-white py-2 rounded-3xl mt-[2.5rem] text-lg"
+            this.buttonLabel = 'Saving...'
             if (this.file) {
                 this.isLoading = true;
                 const file = e;
@@ -156,14 +201,7 @@ export default {
                 const storage = getStorage();
                 const storageRef = ref(storage, 'images/' + fileName);
                 await uploadBytesResumable(storageRef, file);
-                getDownloadURL(storageRef)
-                    .then((url) => {
-                        this.url = url
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                
+                this.dburl = fileName
             }
             this.saveProfile(this.datas.id)
         },

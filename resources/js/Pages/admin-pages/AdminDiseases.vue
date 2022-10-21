@@ -78,7 +78,7 @@ export default {
     },
     data() {
         return {
-            diseases: {},
+            diseases: [],
             url: null
         }
     },
@@ -91,6 +91,15 @@ export default {
             })
                 .then((response) => {
                     this.diseases = response.data
+                    for (let i=0; i < this.diseases.length; i++){
+                        const storage = getStorage();
+                        const storageRef = ref(storage, 'images/' + this.diseases[i].url);
+                        getDownloadURL(storageRef)
+                            .then((url) => {
+                                this.diseases[i].url = url
+                            })
+                    }
+                    
                 })
                 .catch((error) => {
                     console.log(error)
@@ -108,7 +117,8 @@ export default {
             .catch((error) => {
                 console.log(error)
             })
-        },
+        }
+            
     },
     created() {
         this.getDiseases()

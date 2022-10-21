@@ -44,12 +44,23 @@
                         }
                     })
                     .then((response) => {
+                        let path = '/admin/'
                         if (response.data.isAdmin == 1){
                             this.isAdmin = 1;
+                            if (!this.$route.path.includes(path)){
+                                this.$router.push('/admin/profile')
+                            }
+                        }
+                        else {
+                            this.isAdmin = 0;
+                            if (this.$route.path.includes(path)){
+                                this.$router.push('/')
+                            }
                         }
                     })
                     .catch((error) => {
-                        console.log(error)
+                        this.isAdmin = 0;
+                        this.$router.push('/')
                     })
                 }
                 else{

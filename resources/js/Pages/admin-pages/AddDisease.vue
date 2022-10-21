@@ -79,16 +79,13 @@ import { v4 as uuid } from 'uuid';
 export default {
     methods: {
         addDisease() {
-            this.saving = 1
-            this.status = 'Saving...'
-            this.buttonClass = 'w-[7.5rem] bg-grey cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
             axios.post('/api/disease/', {
                 disease: disease.value,
                 overview: overview.value,
                 causes: causes.value,
                 treatment: treatment.value,
                 prevention: prevention.value,
-                url: this.url
+                image: this.url
             },
                 {
                     headers: {
@@ -99,12 +96,18 @@ export default {
                     this.$router.push({name: 'AdminDiseases'})
                 })
                 .catch((error) => {
-                    console.log(this.dburl)
+                    console.log(this.url)
                     console.log(error)
                     this.response = error.response.data.message
+                    this.saving = 0
+                    this.status = 'Save'
+                    this.buttonClass = 'w-[7.5rem] bg-first cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
                 })
         },
         async afterComplete(e) {
+            this.saving = 1
+            this.status = 'Saving...'
+            this.buttonClass = 'w-[7.5rem] bg-grey cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
             if (this.file) {
                 const file = e;
                 const re = /(?:\.([^.]+))?$/;
@@ -113,13 +116,7 @@ export default {
                 const storage = getStorage();
                 const storageRef = ref(storage, 'images/' + fileName);
                 await uploadBytesResumable(storageRef, file);
-                getDownloadURL(storageRef)
-                    .then((url) => {
-                        this.url = url
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                this.url = fileName
             }
             this.addDisease()
         },

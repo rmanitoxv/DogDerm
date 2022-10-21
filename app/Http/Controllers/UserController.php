@@ -104,8 +104,9 @@ class UserController extends Controller
             'email' => 'required|string',
             'url' => 'string'
         ]);
-
-        $request['password'] = bcrypt($request['password']);
+        if ($request['password']){
+            $request['password'] = bcrypt($request['password']);
+        }
         $user = User::findOrFail($id);
         $user->update($request->all());
 
