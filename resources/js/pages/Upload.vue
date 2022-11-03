@@ -15,17 +15,17 @@
                         </p>
                     </div>
                 </label>
-                <div
-                    class="flex w-[24.5rem] h-[24.5rem] bg-seventh rounded-[1.5rem] align-items-center align-self-center justify-center">
-                    <label v-if="url" for="upload">
+                <label for="upload"
+                    class="flex w-[24.5rem] h-[24.5rem] bg-seventh rounded-[1.5rem] align-items-center align-self-center justify-center cursor-pointer">
+                    <div v-if="url">
                         <img :src="url"  class="object-cover w-[24.5rem] h-[24.5rem] rounded-[1.5rem]" />                    
-                    </label>
-                    <label v-else for="upload" class="text-[1.5rem] font-medium text-grey cursor-pointer">
+                    </div>
+                    <div v-else class="text-[1.5rem] font-medium text-grey">
                         Drop Image Here<br />
                         - or - <br />
                         Click to Upload
-                    </label>
-                </div>
+                    </div>
+                </label>
                 <input type="file" accept=".jpeg,.jpg,.png,.svg" class="hidden" id="upload" @input="getFileName()" />
                 <button class="mt-[2.25rem] w-[7.25rem] py-[1rem] rounded-[2.75rem] bg-first text-white align-self-center">Submit</button>
             </div>

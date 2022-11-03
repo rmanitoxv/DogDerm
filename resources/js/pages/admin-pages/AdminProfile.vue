@@ -119,15 +119,17 @@ export default {
             })
                 .then((response) => {
                     this.datas = response.data
-                    const storage = getStorage();
-                    const storageRef = ref(storage, 'images/' + response.data.url);
-                    getDownloadURL(storageRef)
-                    .then((url) => {
-                        this.url = url
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                    if (response.data.url){
+                        const storage = getStorage();
+                        const storageRef = ref(storage, 'images/' + response.data.url);
+                        getDownloadURL(storageRef)
+                        .then((url) => {
+                            this.url = url
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                    }
                 })
                 .catch((error) => {
                     console.log(error)

@@ -35,7 +35,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <div class="nav__item" v-if="currentRoute == 'Upload'">
+                    <div class="nav__item" v-if="currentRoute == 'Upload' || currentRoute == 'UploadResult'">
                         <router-link to="/upload" class="nav__link active-link">
                             <i class='text-first bx bxs-camera nav__icon'></i>
                             <span class="nav__name">Upload</span>
@@ -135,6 +135,7 @@ export default {
                     this.name = response.data.first_name + " " + response.data.last_name
                 })
                 .catch((error) => {
+                    document.cookie = "token= ; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
                     console.log(error)
                 })
             }

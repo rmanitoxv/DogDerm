@@ -86,10 +86,12 @@
 </template>
 
 <script>
-import parseCookie from '../utils/parseCookie'
+import parseCookie from '../utils/parseCookie';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default {
     created() {
         this.currentRoute;
+        this.getData;
     },
     computed: {
         currentRoute() {
@@ -118,16 +120,18 @@ export default {
                 }
             })
             .then((response) => {
-                this.data = response.data
-                const storage = getStorage();
-                const storageRef = ref(storage, 'images/' + response.data.url);
-                getDownloadURL(storageRef)
-                    .then((url) => {
-                        this.url = url
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
+                this.datas = response.data
+                if (response.data.url){
+                    const storage = getStorage();
+                    const storageRef = ref(storage, 'images/' + response.data.url);
+                    getDownloadURL(storageRef)
+                        .then((url) => {
+                            this.url = url
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        })
+                }
             })
             .catch((error) => {
                 console.log(error)
@@ -139,7 +143,7 @@ export default {
     },
     data(){
         return{
-            data: {},
+            datas: {},
             url: null
         }
     }

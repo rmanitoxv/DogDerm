@@ -5,6 +5,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Amiko:wght@400;500;600;700;800;900&family=Barlow+Condensed:ital,wght@1,900&display=swap);
 
 @import url(https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css);
+@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css);
 @import url(https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css);
 /* @import url(https://maps.googleapis.com/maps/api/js?key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o&callback=initMap); */
 @import url(https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCSvvmwaZ3j0VaHbCE2MJZSKxguQRPcS-o);
