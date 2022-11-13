@@ -1,9 +1,9 @@
 <template>
     <div class="container flex gap-8 mx-auto mt-20 md:px-20">
         <!-- STICKY SIDEBAR -->
-        <aside class="fixed top-25 left-96 self-start w-32 hidden md:block flex-initial">
+        <aside class="top-25 left-96 self-start w-40 hidden md:block flex-initial">
             <!-- ON THIS PAGE LINKS -->
-            <label class="amiko text-first font-semibold text-lg">On this page</label>
+            <label class="amiko text-first font-semibold text-xl">On this page</label>
             <ul class="text-base underline-offset-4">
                 <li><a href="#overview"><i class='bx bx-chevron-right'></i>Overview</a></li>
                 <li><a href="#pictures"><i class='bx bx-chevron-right'></i>Pictures</a></li>
@@ -81,9 +81,8 @@
                 <!-- symptoms -->
                 <label class="amiko text-third font-semibold text-lg my-2">Symptoms</label>
                 <div class="desc-container">
-                    Example list:
                     <ul v-for="item in symptoms">
-                        <li>{{item}}</li>
+                        <li>&#x2022; {{item}}</li>
                     </ul>
                 </div>
 

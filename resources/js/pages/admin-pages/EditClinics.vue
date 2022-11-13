@@ -7,12 +7,16 @@
             <span class="text-2xl text-first barlow">Dog</span>
             <span class="text-2xl text-second barlow">Derma</span>
         </div>
-        <form @submit.prevent="editClinics()">
+        <form @submit.prevent="afterComplete(file)">
             <div class="flex justify-center">
-                <div class="ml-[4.5rem] text-center">
-                    <img src="/images/sample-profile.svg" />
-                    <button class="w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg"> Upload Image
-                    </button>
+                <div class="ml-[2rem] text-center">
+                    <img :src="url" class="rounded-full w-[15rem] h-[15rem] object-cover" />
+                    <label for="upload"
+                        class="w-[12rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg cursor-pointer">
+                        Upload Image
+                    </label>
+                    <input type="file" :disabled="validated == 1" id="upload" accept=".jpeg,.jpg,.png,.svg"
+                        class="hidden" @input="getImage()" />
                 </div>
                 <div class="mt-[2.5rem] mx-[5.5rem] ">
                     <div class="flex align-items-center justify-end">
@@ -56,8 +60,8 @@
                         </div>
                     </div>
                     <div class="flex align-items-center mt-[1rem] justify-end">
-                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg">
-                            Edit
+                        <button :class="buttonClass" :disabled="saving">
+                            {{ status }}
                         </button>
                     </div>
                     <p v-if="response" class="text-red text-end">{{response}}</p>
@@ -68,12 +72,19 @@
 </template>
 <script>
 import parseCookie from '../../utils/parseCookie'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 as uuid } from 'uuid';
 export default {
     data() {
         return {
             id: this.$route.params.id,
             datas: {},
-            response: null
+            response: null,
+            url: null,
+            dburl: null,
+            status: 'Edit',
+            saving: 0,
+            buttonClass: 'w-[7.5rem] bg-first text-white py-2 rounded-2xl mt-[2.5rem] text-lg',
         }
     },
     methods: {
@@ -83,7 +94,8 @@ export default {
                 clinic_address: clinic_address.value,
                 clinic_mobile: clinic_mobile.value,
                 clinic_landline: clinic_landline.value,
-                clinic_email: clinic_email.value
+                clinic_email: clinic_email.value,
+                url: this.dburl
             },
                 {
                     headers: {
@@ -96,6 +108,9 @@ export default {
                 .catch((error) => {
                     console.log(error)
                     this.response = error.response.data.message
+                    this.saving = 0
+                    this.status = 'Edit'
+                    this.buttonClass = 'w-[7.5rem] bg-first cursor-none text-white py-2 rounded-2xl mt-[2.5rem] text-lg'
                 })
         },
         getData(id) {
@@ -106,11 +121,38 @@ export default {
             })
             .then((response) => {
                 this.datas = response.data
+                this.dburl = response.data.url
+                const storage = getStorage();
+                const storageRef = ref(storage, 'images/' + this.datas.url);
+                getDownloadURL(storageRef)
+                    .then((url) => {
+                        this.url = url
+                    })
             })
             .catch((error) => {
                 console.log(error)
             })
-        }
+        },
+        getImage() {
+            this.file = upload.files[0];
+            this.url = URL.createObjectURL(this.file);
+        },
+        async afterComplete(e) {
+            this.saving = 1
+            this.status = 'Saving...'
+            this.buttonClass = 'w-[7.5rem] bg-grey cursor-none text-white py-2 rounded-2xl mt-[2.5rem] text-lg'
+            if (this.file) {
+                const file = e;
+                const re = /(?:\.([^.]+))?$/;
+                const ext = re.exec(file.name)[1];
+                const fileName = uuid() + '.' + ext ;
+                const storage = getStorage();
+                const storageRef = ref(storage, 'images/' + fileName);
+                await uploadBytesResumable(storageRef, file);
+                this.dburl = fileName
+            }
+            this.editClinics()
+        },
     },
     created() {
         this.getData(this.id)

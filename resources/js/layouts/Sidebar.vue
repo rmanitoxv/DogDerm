@@ -106,7 +106,7 @@ export default {
                 }
             })
             .then((response) => {
-                document.cookie = "token= ; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+                document.cookie = 'token =; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
                 this.$router.push({ path: "/"});
             })
             .catch((error) => {

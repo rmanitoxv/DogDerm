@@ -78,7 +78,7 @@
             <div class="container rounded-lg bg-white my-4 mx-0 drop-shadow-lg flex items-center">
                 <!-- IMG -->
                 <div class="flex-initial w-45 py-3 px-1">
-                    <img class="object-cover rounded-lg h-40" :src="item.url">
+                    <img class="object-cover rounded-lg w-40 h-40" :src="item.url">
                 </div>
                 <!-- DETAILS -->
                 <div class="flex-initial w-45 py-3 pl-5 inline-block">

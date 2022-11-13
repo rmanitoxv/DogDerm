@@ -126,6 +126,9 @@ export default {
                 .catch((error) => {
                     console.log(error)
                     this.response = error.response.data.message
+                    this.saving = 0
+                    this.status = 'Edit'
+                    this.buttonClass = 'w-[7.5rem] bg-first cursor-none text-white py-2 rounded-2xl mt-[2.5rem] text-lg'
                 })
         },
         getData(id) {

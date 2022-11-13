@@ -22,13 +22,13 @@
             <div class="flex flex-col shadow-md rounded-xl w-full justify-center">
                 <div class="flex h-[3rem] align-items-center">
                     <div class="font-medium w-full">&nbsp;</div>
-                    <div class="font-medium w-full">&nbsp;</div>
+                    <div class="font-medium w-[50%]">&nbsp;</div>
                     <div class="font-medium w-full">Clinic Name</div>
                     <div class="font-medium w-full">Address</div>
                     <div class="font-medium w-full">Mobile</div>
                     <div class="font-medium w-full">Landline</div>
                     <div class="font-medium w-full">Email</div>
-                    <div class="font-medium w-full">&nbsp;</div>
+                    <div class="font-medium w-[50%]">&nbsp;</div>
                 </div>
                 <div class="h-[65vh] overflow-auto">
                     <div v-for="item in clinics" >
@@ -40,11 +40,11 @@
                                 <div class="font-medium w-[50%]">
                                     <img :src="item.url" class="w-9 h-9 object-cover rounded-full" />
                                 </div>
-                                <div class="font-medium w-full">{{item.clinic_name}}</div>
-                                <div class="font-medium w-full">{{item.clinic_address}}</div>
-                                <div class="font-medium w-full">{{item.clinic_mobile}}</div>
-                                <div class="font-medium w-full">{{item.clinic_landline}}</div>
-                                <div class="font-medium w-full">{{item.clinic_email}}</div>
+                                <div class="font-medium w-full truncate">{{item.clinic_name}}</div>
+                                <div class="font-medium w-full truncate">{{item.clinic_address}}</div>
+                                <div class="font-medium w-full truncate">{{item.clinic_mobile}}</div>
+                                <div class="font-medium w-full truncate">{{item.clinic_landline}}</div>
+                                <div class="font-medium w-full truncate">{{item.clinic_email}}</div>
                                 <div class="font-medium w-[50%] text-white">
                                     <button class="bg-blue w-[2.25rem] h-[2.25rem] rounded-xl mx-[0.25rem]"
                                         @click="$router.push({ name: 'EditClinics', params: { id: item.id } })">

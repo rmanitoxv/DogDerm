@@ -50,6 +50,13 @@ class DiseaseController extends Controller
 
     public function update(Request $request, $id)
     {
+        $fields = $request->validate([
+            'disease' => 'required|string',
+            'overview' => 'required|string',
+            'causes' => 'required|string',
+            'treatment' => 'required|string',
+            'prevention' => 'required|string',
+        ]);
         $diseases = Diseases::findOrFail($id);
         $diseases->update($request->all());
         return $diseases;
