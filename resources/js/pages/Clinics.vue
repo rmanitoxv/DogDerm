@@ -33,8 +33,6 @@
                                     <option value="10">10 KM</option>
                                     <option value="15">15 KM</option>
                                     <option value="20">20 KM</option>
-                                    <option value="20">25 KM</option>
-                                    <option value="20">30 KM</option>
                                 </select>
                             </div>
                         </div>
@@ -76,49 +74,30 @@
         </div>
 
         <!-- VET INFORMATION -->
-        <div class="container rounded-lg bg-white my-4 mx-0 drop-shadow-lg flex items-center">
-            <!-- IMG -->
-            <div class="flex-initial w-45 py-3 px-1">
-                <img class="object-cover rounded-lg h-40" src="/images/placeholder.svg">
-            </div>
-            <!-- DETAILS -->
-            <div class="flex-initial w-45 py-3 pl-5 inline-block">
-                <p class="amiko font-bold text-lg">ManilaVets Animal Clinic</p>
-                <ul>
-                    <li class="poppins text-sm"><i class='bx bx-location-plus text-first'></i> &nbsp; 1234 Lorem ipsum
-                        Example Street, City</li>
-                    <li class="poppins text-sm"><i class='bx bxs-phone-call text-first'></i> &nbsp; 912 345 678</li>
-                    <li class="poppins text-sm"><i class='bx bx-envelope text-first'></i> &nbsp; juandelacruz@gmail.com</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- VET INFORMATION -->
-        <div class="container rounded-lg bg-white my-4 mx-0 drop-shadow-lg flex items-center">
-            <!-- IMG -->
-            <div class="flex-initial w-45 py-3 px-1">
-                <img class="object-cover rounded-lg h-40" src="/images/placeholder.svg">
-            </div>
-            <!-- DETAILS -->
-            <div class="flex-initial w-45 py-3 pl-5 inline-block">
-                <p class="amiko font-bold text-lg">ManilaVets Animal Clinic</p>
-                <ul>
-                    <li class="poppins text-sm"><i class='bx bx-location-plus text-first'></i> &nbsp; 1234 Lorem ipsum
-                        Example Street, City</li>
-                    <li class="poppins text-sm"><i class='bx bxs-phone-call text-first'></i> &nbsp; 912 345 678</li>
-                    <li class="poppins text-sm"><i class='bx bx-envelope text-first'></i> &nbsp; juandelacruz@gmail.com</li>
-                </ul>
+        <div v-for="item in clinics">
+            <div class="container rounded-lg bg-white my-4 mx-0 drop-shadow-lg flex items-center">
+                <!-- IMG -->
+                <div class="flex-initial w-45 py-3 px-1">
+                    <img class="object-cover rounded-lg h-40" :src="item.url">
+                </div>
+                <!-- DETAILS -->
+                <div class="flex-initial w-45 py-3 pl-5 inline-block">
+                    <p class="amiko font-bold text-lg">{{item.clinic_name}}</p>
+                    <ul>
+                        <li class="poppins text-sm"><i class='bx bx-location-plus text-first'></i> &nbsp; {{item.clinic_address}}</li>
+                        <li class="poppins text-sm"><i class='bx bxs-phone-call text-first'></i> &nbsp; {{item.clinic_mobile}} | {{item.clinic_landline}}</li>
+                        <li class="poppins text-sm"><i class='bx bx-envelope text-first'></i> &nbsp; {{item.clinic_email}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-
     </div>
 
 </template>
 
 <script>
-
-import axios from 'axios';
-
+import parseCookie from '../utils/parseCookie'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default {
     data() {
         return {
@@ -127,7 +106,8 @@ export default {
             // type: "restaurant",
             type: "veterinary_care",
             radius: "",
-            places: []
+            places: [],
+            clinics: {}
         };
     },
     computed: {
@@ -193,7 +173,31 @@ export default {
                     infowindow.open(map, marker);
                 });
             });
-        }
+        },
+        getClinics() {
+            axios.get('/api/clinics/', {
+                headers: {
+                    "Authorization": `Bearer ${parseCookie(document.cookie).token}`
+                }
+            })
+                .then((response) => {
+                    this.clinics = response.data
+                    for (let i=0; i < this.clinics.length; i++){
+                        const storage = getStorage();
+                        const storageRef = ref(storage, 'images/' + this.clinics[i].url);
+                        getDownloadURL(storageRef)
+                            .then((url) => {
+                                this.clinics[i].url = url
+                            })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        },
+    },
+    created() {
+        this.getClinics()
     }
 }
 

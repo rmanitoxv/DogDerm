@@ -21,7 +21,8 @@ class ClinicsController extends Controller
             'clinic_address' => 'required|string',
             'clinic_mobile' => 'required|string',
             'clinic_landline' => 'required|string',
-            'clinic_email' => 'required|string|unique:clinics,clinic_email'
+            'clinic_email' => 'required|string|unique:clinics,clinic_email',
+            'image' => 'required|string'
         ]);
 
         $clinics = Clinics::create([
@@ -29,7 +30,8 @@ class ClinicsController extends Controller
             'clinic_address' => $fields['clinic_address'],
             'clinic_mobile' => $fields['clinic_mobile'],
             'clinic_landline' => $fields['clinic_landline'],
-            'clinic_email' => $fields['clinic_email']
+            'clinic_email' => $fields['clinic_email'],
+            'url' => $fields['image']
         ]);
 
         $response = [

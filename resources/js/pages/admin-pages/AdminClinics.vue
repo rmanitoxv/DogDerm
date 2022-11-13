@@ -37,8 +37,8 @@
                                 <div class="font-medium w-full text-center">
                                     <input type="checkbox" v-bind:id="item.id" />
                                 </div>
-                                <div class="font-medium w-full">
-                                    <img src="/images/circle.svg" />
+                                <div class="font-medium w-[50%]">
+                                    <img :src="item.url" class="w-9 h-9 object-cover rounded-full" />
                                 </div>
                                 <div class="font-medium w-full">{{item.clinic_name}}</div>
                                 <div class="font-medium w-full">{{item.clinic_address}}</div>
@@ -67,6 +67,7 @@
 <script>
 import parseCookie from '../../utils/parseCookie'
 import DatabaseCount from '../../components/DatabaseCount.vue'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 export default {
     components: {
         DatabaseCount
@@ -88,12 +89,20 @@ export default {
             })
                 .then((response) => {
                     this.clinics = response.data
+                    for (let i=0; i < this.clinics.length; i++){
+                        const storage = getStorage();
+                        const storageRef = ref(storage, 'images/' + this.clinics[i].url);
+                        getDownloadURL(storageRef)
+                            .then((url) => {
+                                this.clinics[i].url = url
+                            })
+                    }
                 })
                 .catch((error) => {
                     console.log(error)
                 })
         },
-        deleteDisease(id) {
+        deleteClinics(id) {
             axios.delete(`/api/clinics/${id}`, {
                 headers: {
                     "Authorization": `Bearer ${parseCookie(document.cookie).token}`

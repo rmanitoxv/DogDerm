@@ -44,7 +44,7 @@ const routes = [
 
     { path: '/clinics', name: 'Clinics', component: Clinics },
     { path: '/diseases', name: 'Diseases', component: Diseases },
-    { path: '/indiv', name: 'IndivDisease', component: IndivDisease },
+    { path: '/diseases/:id', name: 'IndivDisease', component: IndivDisease },
     
     // Admin Routes
     { path: '/admin/profile', name: 'AdminProfile', component: AdminProfile },

@@ -16,42 +16,42 @@
                 </div>
                 <div class="mt-[2.5rem] mx-[5.5rem] ">
                     <div class="flex align-items-center justify-end">
-                        <label class="text-2xl mr-6">
+                        <label class="text-xl mr-6">
                             Clinic Name:
                         </label>
-                        <div class="login__box1 w-[18.75rem] mt-0">
+                        <div class="login__box1 w-[20rem] mt-0">
                             <input type="text" placeholder="Clinic Name" class="login__input" id="clinic_name" :value="datas.clinic_name">
                         </div>
                     </div>
                     <div class="flex align-items-center mt-3 justify-end">
-                        <label class="text-2xl mr-6">
+                        <label class="text-xl mr-6">
                             Address:
                         </label>
-                        <div class="login__box1 w-[18.75rem] mt-0">
+                        <div class="login__box1 w-[20rem] mt-0">
                             <input type="text" placeholder="Address" class="login__input" id="clinic_address" :value="datas.clinic_address">
                         </div>
                     </div>
                     <div class="flex align-items-center mt-3 justify-end">
-                        <label class="text-2xl mr-6">
+                        <label class="text-xl mr-6">
                             Mobile:
                         </label>
-                        <div class="login__box1 w-[18.75rem] mt-0">
+                        <div class="login__box1 w-[20rem] mt-0">
                             <input type="text" placeholder="Mobile" class="login__input" id="clinic_mobile" :value="datas.clinic_mobile">
                         </div>
                     </div>
                     <div class="flex align-items-center mt-3 justify-end">
-                        <label class="text-2xl mr-6">
+                        <label class="text-xl mr-6">
                             Landline:
                         </label>
-                        <div class="login__box1 w-[18.75rem] mt-0">
+                        <div class="login__box1 w-[20rem] mt-0">
                             <input type="text" placeholder="Landline" class="login__input" id="clinic_landline" :value="datas.clinic_landline">
                         </div>
                     </div>
                     <div class="flex align-items-center mt-3 justify-end">
-                        <label class="text-2xl mr-6">
+                        <label class="text-xl mr-6">
                             Email:
                         </label>
-                        <div class="login__box1 w-[18.75rem] mt-0">
+                        <div class="login__box1 w-[20rem] mt-0">
                             <input type="text" placeholder="Email" class="login__input" id="clinic_email" :value="datas.clinic_email">
                         </div>
                     </div>

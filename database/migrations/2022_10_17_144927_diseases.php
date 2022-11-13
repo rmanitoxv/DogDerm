@@ -16,10 +16,11 @@ return new class extends Migration
         Schema::create('diseases', function (Blueprint $table) {
             $table->id();
             $table->string('disease')->unique();
-            $table->string('overview');
-            $table->string('causes');
-            $table->string('treatment');
-            $table->string('prevention');
+            $table->string('overview', 999);
+            $table->string('causes', 999);
+            $table->string('symptoms', 999);
+            $table->string('treatment', 999);
+            $table->string('prevention', 999);
             $table->string('url')->nullable();
             $table->timestamps();
             $table->softDeletes();

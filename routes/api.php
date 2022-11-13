@@ -17,13 +17,15 @@ use App\Http\Controllers\ClinicsController;
 |
 */
 
-//----------------------USER-------------------------//
 //Public Routes
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/disease', [DiseaseController::class, 'index']);
+Route::get('/disease/{id}', [DiseaseController::class, 'show']);
+Route::get('/clinics', [ClinicsController::class, 'index']);
 
-//Protected Routes
+
+//----------------------USER-------------------------//
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'index']);
     Route::get('/user/{id}', [UserController::class, 'show']);
@@ -35,9 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 //----------------------DISEASES-------------------------//
-
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/disease/{id}', [DiseaseController::class, 'show']);
     Route::put('/disease/{id}', [DiseaseController::class, 'update']);
     Route::post('/disease', [DiseaseController::class, 'store']);
     Route::delete('/disease/{id}', [DiseaseController::class, 'destroy']);
@@ -45,7 +45,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 //----------------------CLINICS-------------------------//
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/clinics', [ClinicsController::class, 'index']);
     Route::get('/clinics/{id}', [ClinicsController::class, 'show']);
     Route::put('/clinics/{id}', [ClinicsController::class, 'update']);
     Route::post('/clinics', [ClinicsController::class, 'store']);

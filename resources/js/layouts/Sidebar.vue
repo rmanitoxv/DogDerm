@@ -91,7 +91,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 export default {
     created() {
         this.currentRoute;
-        this.getData;
+        this.getData();
     },
     computed: {
         currentRoute() {

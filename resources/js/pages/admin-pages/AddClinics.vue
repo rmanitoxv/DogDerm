@@ -7,12 +7,18 @@
             <span class="text-2xl text-first barlow">Dog</span>
             <span class="text-2xl text-second barlow">Derma</span>
         </div>
-        <form @submit.prevent="addClinics()">
+        <form @submit.prevent="afterComplete(file)">
             <div class="flex mt-32 justify-center">
                 <div class="ml-[4.5rem] text-center">
-                    <img src="/images/sample-profile.svg" />
-                    <button class="w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg"> Upload Image
-                    </button>
+                    <img v-if="url" :src="url" class="rounded-full w-[21.625rem] h-[21.625rem] object-cover" />
+                    <img v-else src="/images/sample-profile.svg"
+                        class="rounded-full w-[21.625rem] h-[21.625rem] object-cover" />
+                    <label for="upload"
+                        class="w-[15.5rem] bg-first text-white py-3 rounded-2xl mt-[2.5rem] text-lg cursor-pointer">
+                        Upload Image
+                    </label>
+                    <input type="file" :disabled="validated == 1" id="upload" accept=".jpeg,.jpg,.png,.svg"
+                        class="hidden" @input="getImage()" />
                 </div>
                 <div class="mt-[2.5rem] mx-[5.5rem] ">
                     <div class="flex align-items-center justify-end">
@@ -56,8 +62,8 @@
                         </div>
                     </div>
                     <div class="flex align-items-center mt-[1rem] justify-end">
-                        <button class="w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg">
-                            Add
+                        <button :class="buttonClass" :disabled="saving">
+                            {{ status }}
                         </button>
                     </div>
                     <p v-if="response" class="text-red text-end">{{response}}</p>
@@ -68,10 +74,13 @@
 </template>
 <script>
 import parseCookie from '../../utils/parseCookie'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 as uuid } from 'uuid';
 export default {
     methods: {
         addClinics() {
             axios.post('/api/clinics/', {
+                image: this.url,
                 clinic_name: clinic_name.value,
                 clinic_address: clinic_address.value,
                 clinic_mobile: clinic_mobile.value,
@@ -87,9 +96,33 @@ export default {
                     this.$router.push({name: 'AdminClinics'})
                 })
                 .catch((error) => {
+                    console.log(this.url)
                     console.log(error)
                     this.response = error.response.data.message
+                    this.saving = 0
+                    this.status = 'Save'
+                    this.buttonClass = 'w-[7.5rem] bg-first cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
                 })
+        },
+        async afterComplete(e) {
+            this.saving = 1
+            this.status = 'Saving...'
+            this.buttonClass = 'w-[7.5rem] bg-grey cursor-none text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
+            if (this.file) {
+                const file = e;
+                const re = /(?:\.([^.]+))?$/;
+                const ext = re.exec(file.name)[1];
+                const fileName = uuid() + '.' + ext ;
+                const storage = getStorage();
+                const storageRef = ref(storage, 'images/' + fileName);
+                await uploadBytesResumable(storageRef, file);
+                this.url = fileName
+            }
+            this.addClinics()
+        },
+        getImage() {
+            this.file = upload.files[0];
+            this.url = URL.createObjectURL(this.file);
         }
     },
     props: {
@@ -98,6 +131,12 @@ export default {
     data() {
         return{
             response: null,
+            url: null,
+            file: null,
+            dburl: null,
+            status: 'Add',
+            saving: 0,
+            buttonClass: 'w-[7.5rem] bg-first text-white py-2 rounded-3xl mt-[2.5rem] text-lg'
         }
     }
 }

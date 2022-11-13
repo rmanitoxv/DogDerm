@@ -22,7 +22,8 @@ class DiseaseController extends Controller
             'causes' => 'required|string',
             'treatment' => 'required|string',
             'prevention' => 'required|string',
-            'image' => 'required|string'
+            'image' => 'required|string',
+            'symptoms' => 'required'
         ]);
 
         $diseases = Diseases::create([
@@ -31,7 +32,8 @@ class DiseaseController extends Controller
             'causes' => $fields['causes'],
             'treatment' => $fields['treatment'],
             'prevention' => $fields['prevention'],
-            'url' => $fields['image']
+            'url' => $fields['image'],
+            'symptoms' => $fields['symptoms']
         ]);
 
         $response = [
@@ -48,13 +50,6 @@ class DiseaseController extends Controller
 
     public function update(Request $request, $id)
     {
-        $fields = $request->validate([
-            'disease' => 'required|string|unique:diseases,disease',
-            'overview' => 'required|string',
-            'causes' => 'required|string',
-            'treatment' => 'required|string',
-            'prevention' => 'required|string',
-        ]);
         $diseases = Diseases::findOrFail($id);
         $diseases->update($request->all());
         return $diseases;

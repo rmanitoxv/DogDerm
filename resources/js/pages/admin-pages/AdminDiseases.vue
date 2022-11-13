@@ -31,7 +31,7 @@
                     <div class="font-medium w-full">Prevention</div>
                     <div class="font-medium w-[50%]">&nbsp;</div>
                 </div>
-                <div class="h-[65vh] overflow-auto">
+                <div class="h-[62vh] overflow-auto">
                     <div v-for="item in diseases">
                         <label v-bind:for="item.id" class="w-full">
                             <div class="flex h-[4.5rem] align-items-center text-sixth">
@@ -42,10 +42,10 @@
                                     <img :src="item.url" class="w-9 h-9 object-cover rounded-full" />
                                 </div>
                                 <div class="font-medium w-full">{{item.disease}}</div>
-                                <div class="font-medium w-full">{{item.overview}}</div>
-                                <div class="font-medium w-full">{{item.causes}}</div>
-                                <div class="font-medium w-full">{{item.treatment}}</div>
-                                <div class="font-medium w-full">{{item.prevention}}</div>
+                                <div class="font-medium w-full h-[4.5rem] overflow-auto ml-3">{{item.overview}}</div>
+                                <div class="font-medium w-full h-[4.5rem] overflow-auto ml-3">{{item.causes}}</div>
+                                <div class="font-medium w-full h-[4.5rem] overflow-auto ml-3">{{item.treatment}}</div>
+                                <div class="font-medium w-full h-[4.5rem] overflow-auto ml-3">{{item.prevention}}</div>
                                 <div class=" flex font-medium w-[50%] text-white">
                                     <button class="bg-blue w-[2.25rem] h-[2.25rem] rounded-xl mx-[0.25rem]"
                                         @click="$router.push({ name: 'EditDisease', params: { id: item.id } })">
