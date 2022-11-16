@@ -21,7 +21,7 @@ class ClinicsController extends Controller
             'clinic_address' => 'required|string',
             'clinic_mobile' => 'required|string',
             'clinic_landline' => 'required|string',
-            'clinic_email' => 'required|string|unique:clinics,clinic_email',
+            'clinic_email' => 'required|string',
             'image' => 'required|string'
         ]);
 

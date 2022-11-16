@@ -28,7 +28,7 @@
                             </div>
 
                             <div class="field">
-                                <select v-model="radius" id="radius">
+                                <select id="radius">
                                     <option value="5">5 KM</option>
                                     <option value="10">10 KM</option>
                                     <option value="15">15 KM</option>
@@ -141,6 +141,7 @@ export default {
                 .then(response => {
                     this.places = response.data.results;
                     this.addLocationsToGoogleMaps();
+                    console.log(URL)
                 })
                 .catch(error => {
                 console.log(error);
