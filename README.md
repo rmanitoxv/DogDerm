@@ -23,6 +23,7 @@
 - npm install
 - npm run dev
 - OPEN NEW TERMINAL - php artisan serve
+- Install this for GPlaces API: https://cors-anywhere.herokuapp.com/corsdemo
 
 
 ## About Laravel
